@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 function TodoList() {
     console.log('Testing TodoList')
     const [listOfTask, setListOfTask] = useState([])
-    cosnt [stausOfTask, setStatusOfTask]
+    // cosnt [stausOfTask, setStatusOfTask]
     const fetchTodoList = () => {
         axios.get("/todo").then((response) => {
             setListOfTask(response.data);
