@@ -1,18 +1,18 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import List from '../List/List.jsx'
+import List from './List.jsx'
 
-const AddTask = () => {
-    const [ task , setNewTask] = useState('');
+const AddTask = ({fetchTodoList}) => {
+    const [ newTask , setNewTask] = useState('');
     const [ taskDate , setNewTaskDate ] = useState('');
     const [ taskNotes, setNewTaskNotes] = useState('');
-    const [ taskStatus, setNewTaskStatus] = useState('');
+    // const [ taskStatus, setNewTaskStatus] = useState('');
 
     const submitForm = (event) => {
-
-        event.preventdefault();
+        event.preventDefault();
+        console.log('In Post Request')
         axios.post('/todo', {
-            task: task,
+            task: newTask,
             due: taskDate,
             notes: taskNotes
             // status: taskStatus
@@ -20,8 +20,7 @@ const AddTask = () => {
             setNewTask('');
             setNewTaskDate('');
             setNewTaskNotes('');
-            setNewTaskStatus('');
-            List;
+            fetchTodoList();
             console.log('Testing post')
         }).catch((error) => {
             console.log(`Error in Post ${error}`)
@@ -31,11 +30,11 @@ const AddTask = () => {
 
     return (
         <form onSubmit={submitForm}>
-            Task: <input type="text" value={task} onChange={(e) => setNewTask(e.target.value)}/>
+            Task: <input type="text" value={newTask} onChange={(e) => setNewTask(e.target.value)}/>
             <br />
             Due: <input type="date" value={taskDate} onChange={(e) => setNewTaskDate(e.target.value)}/>
             <br />
-            Notes:<input type="text" value={taskNotes} onChange={(e) => setNewTaskStatus(e.target.value)}/>
+            Notes: <input type="text" value={taskNotes} onChange={(e) => setNewTaskNotes(e.target.value)}/>
             <br />
             <input type="submit" />
 

@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-function TodoList() {
+import AddTask from "./Add";
+import Status from "./Status";
+import Delete from "./Delete";
+function TodoList({changeStatus}) {
     console.log('Testing TodoList')
     const [listOfTask, setListOfTask] = useState([])
-    // cosnt [stausOfTask, setStatusOfTask]
+    const [statusOfTask, setStatusOfTask] = useState('')
     const fetchTodoList = () => {
         axios.get("/todo").then((response) => {
             setListOfTask(response.data);
@@ -12,7 +15,7 @@ function TodoList() {
             alert('Something went wrong.')
         });
     };
-
+    
     useEffect(() => {
         fetchTodoList();
     }, []);
@@ -22,9 +25,13 @@ function TodoList() {
         return date.toLocaleDateString();
       };
 
+      
 
     return (
         <div>
+        
+        <AddTask 
+    fetchTodoList={fetchTodoList} />
         <h2>Your Task</h2>
         <table>
             <thead>
@@ -42,13 +49,17 @@ function TodoList() {
                 {
                     listOfTask.map((task) => (
                         <tr key={task.id}>
-                            <td><input type="checkbox" name="task1" value="completed"></input></td>
+                            <td><Status 
+                            fetchTodoList={fetchTodoList}
+                            task={task}/></td> 
                             <td>{task.status}</td>
                             <td>{task.task}</td>
                             <td>{task.notes}</td>
                             <td>{formatDate(task.due)}</td>
-                            <td></td>             
-                            <td><button>Remove</button></td>
+                            <td><Delete 
+                            task={task}
+                            fetchTodoList={fetchTodoList}/></td>   
+                            <td></td>
                         </tr>
                     ))
                 }

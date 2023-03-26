@@ -5,7 +5,7 @@ const pool = require('../modules/pool.js');
 // GET
 router.get('/', (req, res) => {
     console.log('GET Request made for /todo_list');
-    
+
     let queryText = 'SELECT * FROM "todo_list";';
     pool.query(queryText).then((result) => {
         res.send(result.rows);
@@ -36,29 +36,40 @@ router.post('/', (req, res) => {
         res.sendStatus(500);
     })
 });
+
+
 // PUT
-router.put('/:id', (req, res) => {
+router.put('/:id/status', (req, res) => {
     console.log('In PUT request /todo');
+    //this is setting a variable to the ID sent over from the function
     let taskId = req.params.id;
-    let taskToEdit = req.body;
-    console.log(taskToEdit);
-    let queryText = `UPDATE "todo_list" SET "status" = $1 WHERE "id" = $2`;
-    if (taskToEdit.ready_to_transfer === 'false') {
-        pool.query(queryText, [true, taskId]).then((result) => {
+    console.log(taskId)
+    // you can set a variable to SQL select
+    let getStatusQuery = `SELECT "status" FROM "todo_list" WHERE "id" = $1`;
+    //this ^^ selects status from todo list to id which will be added next
+    pool.query(getStatusQuery, [taskId]).then((result) => {
+        let currentStatus = result.rows[0].status;
+        //^^ this set a variable to grab the status results from the getStatusQuery 
+        let newStatus = currentStatus === 'Complete' ? 'Incomplete' : 'Complete';
+       // ^^^ this a shorthand if else conditional which sets the new status variable to the if else
+        let queryText = `UPDATE "todo_list" SET "status" = $1 WHERE "id" = $2`;
+
+        //below is sending the query text with the values of newStatus and taskId(the id we sent over )
+        pool.query(queryText, [newStatus, taskId]).then((result) => {
             res.sendStatus(200);
         }).catch((error) => {
             console.log(`Error in PUT ${error}`);
             res.sendStatus(500);
         });
-    } else {
-        pool.query(queryText, [false, taskId]).then((result) => {
-            res.sendStatus(200);
-        }).catch((error) => {
-            console.log(`Error in PUT ${error}`);
-            res.sendStatus(500);
-        });
-    };
+    }).catch((error) => {
+        console.log(`Error in PUT ${error}`);
+        res.sendStatus(500);
+    });
+
 });
+
+// ANOTHER PUT for EDIT
+
 
 // DELETE
 router.delete('/:id', (req, res) => {
