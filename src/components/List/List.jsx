@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import AddTask from "./Add";
 import Status from "./Status";
 import Delete from "./Delete";
+import DisplayList from "./DisplayList";
 function TodoList({changeStatus}) {
     console.log('Testing TodoList')
     const [listOfTask, setListOfTask] = useState([])
@@ -33,38 +34,10 @@ function TodoList({changeStatus}) {
         <AddTask 
     fetchTodoList={fetchTodoList} />
         <h2>Your Task</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Status</th>
-                    <th>Task</th>
-                    <th>Notes</th>
-                    <th>Due</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    listOfTask.map((task) => (
-                        <tr key={task.id}>
-                            <td><Status 
-                            fetchTodoList={fetchTodoList}
-                            task={task}/></td> 
-                            <td>{task.status}</td>
-                            <td>{task.task}</td>
-                            <td>{task.notes}</td>
-                            <td>{formatDate(task.due)}</td>
-                            <td><Delete 
-                            task={task}
-                            fetchTodoList={fetchTodoList}/></td>   
-                            <td></td>
-                        </tr>
-                    ))
-                }
-            </tbody>
-        </table>
+        <DisplayList 
+        fetchTodoList={fetchTodoList}
+        formatDate={formatDate}
+        listOfTask={listOfTask}/>
     </div>
 
     )
