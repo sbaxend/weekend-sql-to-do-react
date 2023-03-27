@@ -1,5 +1,72 @@
-body {
+ * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+body {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px auto;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  background-color: rgb(241, 173, 83);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: rgb(245, 0, 0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #aaa;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  margin-right: 10px;
+  position: relative;
+  top: 3px;
+}
+
+input[type="checkbox"]:checked {
+  border-color: #30cf5d;
+  background-color: #30cf5d;
 }
